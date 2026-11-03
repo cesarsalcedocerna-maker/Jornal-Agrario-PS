@@ -140,20 +140,9 @@ api.post('/auth/logout', (req, res) => {
 
 api.get('/auth/me', (req, res) => {
   const token = (req.headers.cookie || '').match(/jornal_sesion=([^;]+)/);
-  const usuario = token ? usuarioPublico(require_auth(token[1])) : null;
-  res.json({ usuario });
+  const usuario = token ? verificarToken(decodeURIComponent(token[1])) : null;
+  res.json({ usuario: usuario ? usuarioPublico(usuario) : null });
 });
-
-// helper local para /auth/me sin duplicar el middleware
-function require_auth(tokenCrudo) {
-  try {
-    // eslint-disable-next-line global-require
-    const { verificarToken } = { verificarToken: null };
-    return verificarToken ? null : null;
-  } catch {
-    return null;
-  }
-}
 
 api.get('/me', autenticar, (req, res) => {
   res.json({ usuario: usuarioPublico(req.usuario) });
