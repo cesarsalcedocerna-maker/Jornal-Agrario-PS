@@ -146,7 +146,7 @@ test('gestión humana administra catálogos y trabajadores', async () => {
     metasPlan: [{ nombre: 'Plantas podadas', unidad: 'planta', tarifa: 0.2, objetivoDia: 200 }],
   });
   assert.ok([200, 201].includes(crear.status), `status ${crear.status}`);
-  const puestoId = crear.body.puesto?.id || crear.body.id;
+  const puestoId = crear.body.puesto?.id || crear.body.item?.id || crear.body.id;
   assert.ok(puestoId);
 
   const trab = await pedir('POST', '/api/trabajadores', {
