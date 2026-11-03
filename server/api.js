@@ -4,7 +4,7 @@ import {
   hashPassword, uid, auditar,
 } from './store.js';
 import {
-  autenticar, soloGH, login, setCookieSesion, limpiarCookie, usuarioPublico,
+  autenticar, soloGH, login, setCookieSesion, limpiarCookie, usuarioPublico, verificarToken,
 } from './auth.js';
 import {
   DEFAULT_CONFIG, calcularDia, resumenPeriodo, simular, rangoSemana, rangoMes,
