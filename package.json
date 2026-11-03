@@ -1,0 +1,18 @@
+{
+  "name": "jornal-agrario",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Calculadora de jornal y detalle de pago para el régimen agrario (Ley 31110) con portal del trabajador y panel de gestión humana",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js",
+    "test": "node --test tests/"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
