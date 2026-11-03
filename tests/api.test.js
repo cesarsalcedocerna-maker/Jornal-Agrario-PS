@@ -130,7 +130,7 @@ test('login de gestión humana y revisión del registro', async () => {
 
   const pendientes = await pedir('GET', '/api/registros?estado=enviado');
   assert.equal(pendientes.status, 200);
-  assert.ok(pendientes.body.registros.some((x) => x.id === registroId));
+  assert.ok(pendientes.body.items.some((x) => x.id === registroId));
 
   const revision = await pedir('PUT', `/api/registros/${registroId}`, {
     estado: 'aprobado', horasExtra: 2, comentarioGH: 'Validado en campo',
@@ -154,7 +154,7 @@ test('gestión humana administra catálogos y trabajadores', async () => {
     modalidadId: null, turnoId: null, horarioId: null, tarifaJornal: 52, diasPorSemana: 6, asignacionFamiliar: false,
   });
   assert.ok([200, 201].includes(trab.status), `status ${trab.status}`);
-  const trabajadorId = trab.body.trabajador?.id || trab.body.id;
+  const trabajadorId = trab.body.trabajador?.id || trab.body.item?.id || trab.body.id;
   assert.ok(trabajadorId);
 
   const cfg = await pedir('PUT', '/api/config', { maxHorasExtraDia: 3 });

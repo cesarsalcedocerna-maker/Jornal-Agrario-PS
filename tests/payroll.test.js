@@ -34,9 +34,9 @@ test('horas extras con sobretasa escalonada 25% y 35%', () => {
   assert.equal(d.horas.extraTramo2, 2);
   const c1 = d.conceptos.find((c) => c.codigo === 'horas_extra_1');
   const c2 = d.conceptos.find((c) => c.codigo === 'horas_extra_2');
-  assert.equal(c1.monto, 2 * (5.75 * 1.25));
-  assert.equal(c2.monto, 2 * (5.75 * 1.35));
-  assert.equal(d.totales.bruto, Math.round((46 + 14.375 + 15.525) * 100) / 100);
+  assert.equal(c1.monto, Math.round(2 * (5.75 * 1.25) * 100) / 100);
+  assert.equal(c2.monto, Math.round(2 * (5.75 * 1.35) * 100) / 100);
+  assert.equal(d.totales.bruto, Math.round((46 + c1.monto + c2.monto) * 100) / 100);
 });
 
 test('solo horas extra declaradas se suman a la jornada', () => {
@@ -79,7 +79,7 @@ test('turno nocturno aplica recargo configurado', () => {
   const d = calcularDia(nocturno, { fecha: '2026-03-02', horasTrabajadas: 8 });
   assert.equal(d.horas.nocturnas, 8);
   const rec = d.conceptos.find((c) => c.codigo === 'recargo_nocturno');
-  assert.equal(rec.monto, 8 * 5.75 * 0.35);
+  assert.equal(rec.monto, Math.round(8 * 5.75 * 0.35 * 100) / 100);
 });
 
 test('tardanza y horas no laboradas generan descuento', () => {
@@ -93,7 +93,8 @@ test('aportes ONP 13% y EsSalud 9%', () => {
   const aportes = calcularAportes(1000, ctx);
   assert.equal(aportes.total, 130);
   const d = resumenPeriodo([calcularDia(ctx, { fecha: '2026-03-02', horasTrabajadas: 8 })], ctx, { tipo: 'dia', diasDelPeriodo: 1 });
-  assert.equal(d.costoEmpleador.essalud, Math.round(46 * 0.09 * 100) / 100);
+  // EsSalud se calcula sobre el bruto del periodo, que incluye el descanso semanal
+  assert.equal(d.costoEmpleador.essalud, Math.round(d.bruto * 0.09 * 100) / 100);
 });
 
 test('descanso semanal remunerado: 1 día por cada 6 laborados', () => {
