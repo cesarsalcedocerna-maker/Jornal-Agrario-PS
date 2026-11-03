@@ -528,7 +528,7 @@ export function simular(ctx, entrada = {}) {
   const planMetas = Array.isArray(puesto.metasPlan) ? puesto.metasPlan : [];
   const metasObjetivo = planMetas
     .filter((m) => num(m.objetivoDia, 0) > 0)
-    .map((m) => ({ nombre: m.nombre }));
+    .map((m) => ({ nombre: m.nombre, cantidad: num(m.objetivoDia, 0), superaObjetivo: true }));
 
   const patronMax = {
     ...patron,
