@@ -137,7 +137,9 @@ test('login de gestión humana y revisión del registro', async () => {
   });
   assert.equal(revision.status, 200);
   assert.equal(revision.body.registro.estado, 'aprobado');
-  assert.equal(revision.body.registro.horas.extra, 2);
+  // El cálculo del registro se devuelve en `registro.calculo`
+  assert.equal(revision.body.registro.calculo.horas.extra, 2);
+  assert.ok(revision.body.registro.calculo.totales.bruto > 0);
 });
 
 test('gestión humana administra catálogos y trabajadores', async () => {
