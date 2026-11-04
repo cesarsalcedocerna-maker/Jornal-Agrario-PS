@@ -144,7 +144,8 @@ function vistaLogin(rol = 'trabajador', error = '') {
 }
 
 function bindLogin() {
-  let rol = 'trabajador';
+  // El rol se deduce del botón activo para no perderlo al re-renderizar la vista.
+  let rol = $('.rol-btn[aria-pressed="true"]')?.dataset.rol || 'trabajador';
   $$('.rol-btn').forEach((btn) => {
     btn.addEventListener('click', () => {
       rol = btn.dataset.rol;
